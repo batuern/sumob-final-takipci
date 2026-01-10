@@ -1,4 +1,4 @@
-// Alarm kur: Her 15 dakikada bir kontrol et
+
 chrome.alarms.create("finalKontrol", { periodInMinutes: 15 });
 
 chrome.alarms.onAlarm.addListener((alarm) => {
@@ -13,14 +13,11 @@ async function otomatikKontrolEt() {
         const response = await fetch("https://obis3.selcuk.edu.tr/Ogrenci/SonYilNotlari");
         const html = await response.text();
         
-        // HTML içinden notları ayıkla (Basit bir Regex ile)
-        // Bu kısım sayfa yapısına göre çok hassastır
+   
         chrome.storage.local.get(['eskiNotlar'], (result) => {
             const eskiNotlar = result.eskiNotlar || {};
             
-            // Burada basitçe HTML içinde yeni bir veri var mı diye bakıyoruz
-            // Eğer daha profesyonel bir ayıklama istersen 'offscreen document' kullanabiliriz
-            // Ama şimdilik en kolay yol senin sayfayı her açtığında content.js'in veriyi güncellemesidir.
+            
             console.log("Arka plan sorgusu başarılı.");
         });
     } catch (error) {
@@ -28,7 +25,7 @@ async function otomatikKontrolEt() {
     }
 }
 
-// Bildirim dinleyicisi (content.js'den gelen veriler için)
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.type === "NOT_KONTROL") {
         const yeniNotlar = request.data;

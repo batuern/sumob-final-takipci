@@ -1,4 +1,4 @@
-chrome.alarms.create("finalKontrol", { periodInMinutes: 15 });
+chrome.alarms.create("finalKontrol", { periodInMinutes: 1 });
 chrome.alarms.onAlarm.addListener((alarm) => {
     if (alarm.name === "finalKontrol") {
         console.log("Arka planda final kontrolü başladı...");

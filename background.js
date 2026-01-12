@@ -17,11 +17,11 @@ function notlariAyikla(htmlMetni) {
         satirlar.forEach(satir => {
             // Sütunları ayıkla
             const sutunRegex = /<td[^>]*>(.*?)<\/td>/gi;
+            // Tüm sütunları temizleyip bir diziye atıyoruz
             const sutunlar = [...satir.matchAll(sutunRegex)].map(m => m[1].replace(/<[^>]*>/g, "").trim());
 
             // Index 8'de Final var, yani uzunluk en az 9 olmalı
             if (sutunlar.length > 8) {
-                // Yıl filtresi YOK.
 
                 // 2. Veri Çekme
                 const dersAdi = sutunlar[2]; // Index 2: Ders Adı
@@ -54,6 +54,7 @@ async function otomatikKontrolEt() {
                 const yeniFinal = yeniNotlar[ders].final;
                 const eskiFinal = eskiNotlar[ders] ? eskiNotlar[ders].final : "";
 
+                // Not değişmişse ve boş değilse bildirim at
                 if (yeniFinal !== eskiFinal && yeniFinal !== "" && yeniFinal !== "-" && yeniFinal !== "0") {
                     chrome.notifications.create({
                         type: "basic",

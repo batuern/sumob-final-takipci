@@ -1,8 +1,7 @@
 function notlariTaraVeGonder() {
     console.log("SÜMOB Eklentisi: Son Yıl Notları taranıyor...");
 
-    // Not: Son Yıl Notları sayfasında tablo ID'si farklı olabilir ama genelde dynamic-table veya ilk table'dır.
-    // Garanti olsun diye genel table seçici kullanıyoruz, sayfada zaten tek ana tablo var.
+    // Son Yıl Notları sayfasında tek ve ana bir tablo olduğu için direkt 'table' diyebiliriz.
     const tablo = document.querySelector('table'); 
     
     if (!tablo) {
@@ -19,14 +18,13 @@ function notlariTaraVeGonder() {
         // Tablo yapısını kontrol et (Vize1=4, Final=8 olduğu için en az 9 sütun olmalı)
         if (sutunlar.length > 8) {
             
-            // Artık yıl filtresine gerek yok, sayfa zaten güncel.
-            
             // VERİ ÇEKME (Yeni Haritaya Göre)
             const dersAdi = sutunlar[2].innerText.trim();  // Index 2: Ders Adı
             const vizeNotu = sutunlar[4].innerText.trim(); // Index 4: Vize 1
             const finalNotu = sutunlar[8].innerText.trim(); // Index 8: Final
 
             // Başlık satırını (header) çekmemek için basit bir kontrol
+            // "Ders Adı" yazan satırı ve boş satırları atlıyoruz
             if (dersAdi && dersAdi !== "Ders Adı") {
                 bulunanNotlar[dersAdi] = {
                     vize: vizeNotu,

@@ -5,7 +5,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
     }
 });
 
-// HTML Metnini Parçalayan Güncel Fonksiyon (Röntgen sonucuna göre ayarlandı)
+// HTML Metnini Parçalayan Güncel Fonksiyon (Son Yıl Notları Tablosuna Göre)
 function notlariAyikla(htmlMetni) {
     const bulunanNotlar = {};
     
@@ -17,19 +17,18 @@ function notlariAyikla(htmlMetni) {
         satirlar.forEach(satir => {
             // Sütunları ayıkla
             const sutunRegex = /<td[^>]*>(.*?)<\/td>/gi;
-            // Tüm sütunları temizleyip bir diziye atıyoruz
             const sutunlar = [...satir.matchAll(sutunRegex)].map(m => m[1].replace(/<[^>]*>/g, "").trim());
 
+            // Index 8'de Final var, yani uzunluk en az 9 olmalı
             if (sutunlar.length > 8) {
-                // 1. Yıl Kontrolü (Index 1)
-                const yil = sutunlar[1];
-                if (yil !== "2026") return; // Sadece 2026'yı al
+                // Yıl filtresi YOK.
 
                 // 2. Veri Çekme
-                const dersAdi = sutunlar[2]; // İsim Index 2
-                const finalNotu = sutunlar[8]; // Final Index 8
+                const dersAdi = sutunlar[2]; // Index 2: Ders Adı
+                const finalNotu = sutunlar[8]; // Index 8: Final
 
-                if (dersAdi) {
+                // Gereksiz header satırlarını elemek için
+                if (dersAdi && dersAdi !== "Ders Adı" && !dersAdi.includes("AKTS")) {
                     bulunanNotlar[dersAdi] = { final: finalNotu };
                 }
             }
@@ -40,11 +39,12 @@ function notlariAyikla(htmlMetni) {
 
 async function otomatikKontrolEt() {
     try {
-        const response = await fetch("https://obis2.selcuk.edu.tr/Ogrenci/NotDurumu");
+        // DİKKAT: URL ARTIK 'SonYilNotlari'
+        const response = await fetch("https://obis2.selcuk.edu.tr/Ogrenci/SonYilNotlari");
         const html = await response.text();
         
         const yeniNotlar = notlariAyikla(html);
-        console.log("Arka planda bulunan notlar (2026):", yeniNotlar);
+        console.log("Arka planda çekilen notlar:", yeniNotlar);
 
         chrome.storage.local.get(['eskiNotlar'], (result) => {
             const eskiNotlar = result.eskiNotlar || {};
@@ -77,7 +77,6 @@ async function otomatikKontrolEt() {
     }
 }
 
-// Ön yüz mesajlarını dinle
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.type === "NOT_KONTROL") {
         const yeniNotlar = request.data;

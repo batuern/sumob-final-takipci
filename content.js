@@ -1,7 +1,9 @@
 function notlariTaraVeGonder() {
-    console.log("SÜMOB Eklentisi: Tablo taranıyor...");
+    console.log("SÜMOB Eklentisi: Son Yıl Notları taranıyor...");
 
-    const tablo = document.querySelector('#dynamic-table');
+    // Not: Son Yıl Notları sayfasında tablo ID'si farklı olabilir ama genelde dynamic-table veya ilk table'dır.
+    // Garanti olsun diye genel table seçici kullanıyoruz, sayfada zaten tek ana tablo var.
+    const tablo = document.querySelector('table'); 
     
     if (!tablo) {
         console.log("Hata: Not tablosu bulunamadı!");
@@ -14,22 +16,18 @@ function notlariTaraVeGonder() {
     satirlar.forEach(satir => {
         const sutunlar = satir.querySelectorAll('td');
         
-        // Tablo yapısını kontrol et (Röntgen sonucuna göre en az 9 sütun var)
+        // Tablo yapısını kontrol et (Vize1=4, Final=8 olduğu için en az 9 sütun olmalı)
         if (sutunlar.length > 8) {
             
-            // 1. ADIM: Yıl Filtresi (Sütun 1)
-            // Sadece kutusunda "2026" yazanları alacağız.
-            const yil = sutunlar[1].innerText.trim();
-            if (yil !== "2026") {
-                return; // 2024, 2025 vs. ise atla
-            }
+            // Artık yıl filtresine gerek yok, sayfa zaten güncel.
+            
+            // VERİ ÇEKME (Yeni Haritaya Göre)
+            const dersAdi = sutunlar[2].innerText.trim();  // Index 2: Ders Adı
+            const vizeNotu = sutunlar[4].innerText.trim(); // Index 4: Vize 1
+            const finalNotu = sutunlar[8].innerText.trim(); // Index 8: Final
 
-            // 2. ADIM: Verileri Çek (Yeni Haritaya Göre)
-            const dersAdi = sutunlar[2].innerText.trim();  // Ders Adı
-            const vizeNotu = sutunlar[6].innerText.trim(); // Ara Sınav 1
-            const finalNotu = sutunlar[8].innerText.trim(); // Genel Sınav (Final)
-
-            if (dersAdi) {
+            // Başlık satırını (header) çekmemek için basit bir kontrol
+            if (dersAdi && dersAdi !== "Ders Adı") {
                 bulunanNotlar[dersAdi] = {
                     vize: vizeNotu,
                     final: finalNotu
@@ -38,7 +36,7 @@ function notlariTaraVeGonder() {
         }
     });
 
-    console.log("Bulunan GÜNCEL Notlar (2026):", bulunanNotlar);
+    console.log("Bulunan SON YIL Notları:", bulunanNotlar);
 
     chrome.runtime.sendMessage({
         type: "NOT_KONTROL",

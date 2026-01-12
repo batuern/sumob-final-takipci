@@ -8,7 +8,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
     }
 });
 
-async function otomatikKontrolEt() {git add .
+async function otomatikKontrolEt() {
     try {
         const response = await fetch("https://obis2.selcuk.edu.tr/Ogrenci/SonYilNotlari");
         const html = await response.text();
@@ -40,7 +40,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                     chrome.notifications.create({
                         type: "basic",
                         iconUrl: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==",
-                        title: "MÜJDE! FİNAL NOTUN GELDİ 🎓",
+                        title: "Yeni Bir Final notu girildi: ",
                         message: `${ders}: ${yeniFinal}`,
                         priority: 2
                     });

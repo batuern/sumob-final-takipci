@@ -34,7 +34,7 @@ function notlariTaraVeGonder() {
                 bulunanNotlar[dersAdi] = {
                     vize: vizeNotu,
                     final: finalNotu
-                };
+                }
             }
         }
     });

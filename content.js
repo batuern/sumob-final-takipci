@@ -17,7 +17,7 @@ function notlariTaraVeGonder() {
         const satirMetni = satir.innerText;
         
         // Eğer satırda "2025" ibaresi geçmiyorsa (yani 2024 ise) bu satırı atla
-        if (!satirMetni.includes("2025")) {
+        if (!satirMetni.includes("2025-2026")) {
             return; 
         }
         // --- FİLTRE KISMI BİTİŞ ---
@@ -39,7 +39,7 @@ function notlariTaraVeGonder() {
         }
     });
 
-    console.log("Bulunan GÜNCEL Notlar (2025):", bulunanNotlar);
+    console.log("Bulunan GÜNCEL Notlar (2025-2026):", bulunanNotlar);
 
     chrome.runtime.sendMessage({
         type: "NOT_KONTROL",

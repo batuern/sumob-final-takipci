@@ -10,7 +10,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 
 async function otomatikKontrolEt() {
     try {
-        const response = await fetch("https://obis2.selcuk.edu.tr/Ogrenci/SonYilNotlari");
+        const response = await fetch("https://obis2.selcuk.edu.tr/Ogrenci/NotDurumu");
         const html = await response.text();
         
    

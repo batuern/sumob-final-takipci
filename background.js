@@ -8,9 +8,9 @@ chrome.alarms.onAlarm.addListener((alarm) => {
     }
 });
 
-async function otomatikKontrolEt() {
+async function otomatikKontrolEt() {git add .
     try {
-        const response = await fetch("https://obis3.selcuk.edu.tr/Ogrenci/SonYilNotlari");
+        const response = await fetch("https://obis2.selcuk.edu.tr/Ogrenci/SonYilNotlari");
         const html = await response.text();
         
    

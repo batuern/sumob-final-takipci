@@ -8,7 +8,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://obis3.selcuk.edu.tr/*"],
+      "matches": ["https://obis2.selcuk.edu.tr/*"],
       "js": ["content.js"]
     }
   ]
